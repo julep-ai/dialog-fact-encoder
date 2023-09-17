@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+gunicorn
+transformers
+FlagEmbedding
+
+--extra-index-url https://download.pytorch.org/whl/cu118
+torch
