@@ -1,0 +1,8 @@
+ipython
+jupyterlab
+ipywidgets
+jsonlines
+datasets
+sentence-transformers
+matplotlib
+faiss-gpu
