@@ -6,3 +6,4 @@ datasets
 sentence-transformers
 matplotlib
 faiss-gpu
+lion-pytorch
