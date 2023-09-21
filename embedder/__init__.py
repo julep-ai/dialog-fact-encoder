@@ -6,6 +6,7 @@ from typing import Any
 from fastapi import FastAPI
 from FlagEmbedding import FlagModel
 from pydantic import BaseModel
+from sentence_transformer import SentenceTransformer
 
 
 ###########
@@ -14,6 +15,7 @@ from pydantic import BaseModel
 
 model_names: list[str] = [
     "BAAI/bge-small-en-v1.5",
+    "julep-ai/dialog-bge-base",
 ]
 
 default_model: str = model_names[0]
@@ -25,13 +27,17 @@ def get_model(model_name: str):
         "Represent this sentence for searching relevant passages:"
     )
 
-    model = FlagModel(
-        model_name,
-        query_instruction_for_retrieval=query_instruction_for_retrieval,
-        pooling_method="cls",
-        normalize_embeddings=True,
-        use_fp16=True,
-    )
+    if model_name.startswith("BAAI/"):
+        model = FlagModel(
+            model_name,
+            query_instruction_for_retrieval=query_instruction_for_retrieval,
+            pooling_method="cls",
+            normalize_embeddings=True,
+            use_fp16=True,
+        )
+
+    else:
+        model = SentenceTransformer(model_name)
 
     return model
 
@@ -83,10 +89,14 @@ def embed(request: Request) -> dict[str, list[list[float]]]:
     model = get_model(model_name)
     encoder = model.encode_queries if query_type == "query" else model.encode
 
+    # Wrap instances if using the custom model
+    if "custom" in model_name:
+        assert query_type in ["dialog", "fact"], \
+            '`query_type` must be "dialog" or "fact"'
+        
+        instances = [{query_type: instance} for instance in instances]
+
     # Embed the instances
-    predictions = encoder(
-        instances,
-        max_length=512,
-    )
+    predictions = encoder(instances)
 
     return dict(predictions=predictions.tolist())

@@ -34,16 +34,19 @@ RUN pip install --upgrade pip
 ## SERVER ##
 ############
 
+ARG HUGGING_FACE_HUB_TOKEN
+ENV HUGGING_FACE_HUB_TOKEN $HUGGING_FACE_HUB_TOKEN
+
 ENV APP_HOME /app
 WORKDIR $APP_HOME
 COPY ./requirements.txt $APP_HOME/requirements.txt
 
-ENV MODEL "BAAI/bge-small-en-v1.5"
 RUN \
     pip install -r requirements.txt && \
     rm -rf /root/.cache/pip
 
-RUN python -c "from FlagEmbedding import FlagModel; FlagModel('$MODEL')"
+RUN python -c "from FlagEmbedding import FlagModel; FlagModel('BAAI/bge-small-en-v1.5')"
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('julep-ai/dialog-bge-base')"
 
 COPY run.sh $APP_HOME/run.sh
 COPY ./embedder $APP_HOME/embedder
