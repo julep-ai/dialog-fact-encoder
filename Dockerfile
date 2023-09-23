@@ -46,7 +46,7 @@ RUN \
     rm -rf /root/.cache/pip
 
 RUN python -c "from FlagEmbedding import FlagModel; FlagModel('BAAI/bge-small-en-v1.5')"
-RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('julep-ai/dialog-bge-base')"
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('julep-ai/dfe-base-en')"
 
 COPY run.sh $APP_HOME/run.sh
 COPY ./embedder $APP_HOME/embedder

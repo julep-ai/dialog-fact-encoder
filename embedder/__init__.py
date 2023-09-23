@@ -6,7 +6,7 @@ from typing import Any
 from fastapi import FastAPI
 from FlagEmbedding import FlagModel
 from pydantic import BaseModel
-from sentence_transformer import SentenceTransformer
+from sentence_transformers import SentenceTransformer
 
 
 ###########
@@ -15,7 +15,7 @@ from sentence_transformer import SentenceTransformer
 
 model_names: list[str] = [
     "BAAI/bge-small-en-v1.5",
-    "julep-ai/dialog-bge-base",
+    "julep-ai/dfe-base-en",
 ]
 
 default_model: str = model_names[0]
@@ -90,7 +90,7 @@ def embed(request: Request) -> dict[str, list[list[float]]]:
     encoder = model.encode_queries if query_type == "query" else model.encode
 
     # Wrap instances if using the custom model
-    if "custom" in model_name:
+    if "dfe" in model_name:
         assert query_type in ["dialog", "fact"], \
             '`query_type` must be "dialog" or "fact"'
         
