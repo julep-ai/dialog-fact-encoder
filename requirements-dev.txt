@@ -1,3 +1,5 @@
+langchain[llms]
+nbconvert[qtpdf]
 ipython
 jupyterlab
 ipywidgets
