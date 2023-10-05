@@ -1,3 +1,5 @@
+torchview
+graphviz
 langchain[llms]
 nbconvert[qtpdf]
 ipython
