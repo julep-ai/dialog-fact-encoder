@@ -1,0 +1,30 @@
+{
+    "name": "Dev Container (Base: CUDA 12.1.0 with cuDNN 8)",
+    "build": {
+        "dockerfile": "./Dockerfile"
+    },
+    "forwardPorts": [8888, 6006],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-toolsai.jupyter",
+                "ms-azuretools.vscode-docker",
+                "github.copilot",
+                "github.copilot-labs",
+                "github.copilot-chat"
+            ]
+        }
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {},
+        "ghcr.io/devcontainers/features/git-lfs:1": {},
+        "ghcr.io/devcontainers/features/python:1": {
+            "version": "3.10"
+        },
+        "ghcr.io/devcontainers-contrib/features/black:2": {}
+    },
+    "runArgs": [
+        "--gpus",
+        "all"
+    ]
+}
